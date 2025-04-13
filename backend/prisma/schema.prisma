@@ -1,0 +1,39 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum Status {
+  active
+  inactive
+}
+
+model User {
+  user_id Int    @id @default(autoincrement())
+  sourced_id String
+  username  String?
+  given_name String?
+  family_name String?
+  role  String
+  email  String?
+  phone  String?
+  status  Status? @default(active)
+  org_id  Int?
+  last_update DateTime? @default(now())
+  lastid_applications String?
+  lastid_optag String?
+  lastid_lectio String?
+  lastid_msedu String?
+  laststatus_applications String?
+  laststatus_optag String?
+  laststatus_lectio String?
+  laststatus_msedu String?
+  lastactivefrom_lectio DateTime?
+  lastactiveto_lectio DateTime?
+
+  @@map("dc9edu_users")
+}

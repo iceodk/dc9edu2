@@ -1,0 +1,35 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+	"generate": "prisma generate",
+    "start": "node src/index.js",
+	"dev": "node src/index.js",
+    "dev": "nodemon src/index.js",
+	"preinstall": "npx only-allow pnpm",
+	"postinstall": "prisma generate"
+  },
+  "dependencies": {
+    "@prisma/client": "^4.16.2",
+    "axios": "^1.8.4",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "fs": "^0.0.1-security",
+    "graph-interface": "^1.0.2",
+    "mysql2": "^3.0.0",
+    "next-auth": "^4.0.0",
+    "node-fetch": "^3.3.2",
+    "path": "^0.12.7",
+    "prisma": "^4.16.2",
+    "url": "^0.11.4"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
