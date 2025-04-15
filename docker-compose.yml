@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  vue-project:
+    container_name: dc9edu2
+    build:
+      context: .
+      dockerfile: dev.Dockerfile
+    volumes:
+      - ./src:/app/src
+      - ./public:/app/public
+    restart: always
+    ports:
+      - 5173:5173
+      - 3000:3000

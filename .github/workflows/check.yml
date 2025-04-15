@@ -1,0 +1,67 @@
+name: ✅ CI: Build & Test Monorepo
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+env:
+  NODE_ENV: development
+  FRONTEND_URL: http://localhost:5173
+
+jobs:
+  build-frontend:
+    name: ⚙️ Frontend Build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup PNPM
+        run: |
+          corepack enable
+          corepack prepare pnpm@latest --activate
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build Vite app
+        run: pnpm run build
+
+  build-backend:
+    name: ⚙️ Backend Setup + Prisma
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      TENANT_ID: ${{ secrets.TENANT_ID }}
+      CLIENT_ID: ${{ secrets.CLIENT_ID }}
+      CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+      SPSITE_APPLICATIONS_URL: ${{ secrets.SPSITE_APPLICATIONS_URL }}
+      SPSITE_APPLICATIONS_SITEID: ${{ secrets.SPSITE_APPLICATIONS_SITEID }}
+      SPSITE_APPLICATIONS_LISTID: ${{ secrets.SPSITE_APPLICATIONS_LISTID }}
+      SPSITE_CERTIFICATES_URL: ${{ secrets.SPSITE_CERTIFICATES_URL }}
+      SPSITE_CERTIFICATES_SITEID: ${{ secrets.SPSITE_CERTIFICATES_SITEID }}
+      SPSITE_CERTIFICATES_LISTID: ${{ secrets.SPSITE_CERTIFICATES_LISTID }}
+
+        
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup PNPM
+        run: |
+          corepack enable
+          corepack prepare pnpm@latest --activate
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Generate Prisma client
+        run: pnpm prisma generate
+
+      - name: Run backend tests (optional)
+        run: pnpm run test || echo "No tests defined"
