@@ -1,5 +1,7 @@
 FROM node:lts
 
+RUN corepack enable && corepack prepare pnpm@latest --activate
+
 WORKDIR /app
 
 # Install dependencies based on the preferred package manager
